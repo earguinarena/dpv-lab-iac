@@ -11,7 +11,7 @@ from iac.components.cognito_user_pool import CognitoUserPool
 from iac.components.storage import Storage
 from iac.resources.dynamodb_tables import DynamodbTables
 from iac.components.api_domain_name import ApiDomainName
-
+from iac.components.queue_component import QueueComponent
 
 class ResourcesStack(Stack):
 
@@ -51,9 +51,27 @@ class ResourcesStack(Stack):
         # Dynamo DB Tables Locale
         DynamodbTables(
             self,
-            stage=stage
+            stage=stage,
+            family_name=""
+
         )
 
+        if stage=="dev":
+            # creo tablas para tests de integracion
+            DynamodbTables(
+                self,
+                stage="integration",
+                family_name="Integration"
+            )
+
+
+        QueueComponent(
+            self, "EnviosQueue",
+            name="dpv-envios",
+            family_name="Envios",
+            stage=stage,
+            export_name="dpv-envios-queue",
+        )
 
         # pipeline artifacts bucket
         self.__pipeline_artifacts_bucket = StorageService(
