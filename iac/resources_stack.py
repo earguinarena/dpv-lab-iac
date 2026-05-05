@@ -1,4 +1,3 @@
-import os
 from aws_cdk import (
     Stack,
     RemovalPolicy,
@@ -10,7 +9,8 @@ from constructs import Construct
 from iac.components.storage_service import StorageService
 from iac.components.cognito_user_pool import CognitoUserPool
 from iac.components.storage import Storage
-from iac.components.dynamodb_tables import DynamodbTables
+from iac.resources.dynamodb_tables import DynamodbTables
+from iac.components.api_domain_name import ApiDomainName
 
 
 class ResourcesStack(Stack):
@@ -18,6 +18,8 @@ class ResourcesStack(Stack):
     def __init__(self, scope: Construct, construct_id: str,
                  stage,
                  name,
+                 domain,
+                 api_host,
                  **kwargs) -> None:
         super().__init__(scope, construct_id, **kwargs)
 
@@ -29,13 +31,13 @@ class ResourcesStack(Stack):
         )
 
         # # Api Domain Name
-        # self.__api_domain_name = ApiDomainName(
-        #     self,
-        #     name=name,
-        #     domain=domain,
-        #     host=api_host,
-        #     stage=stage
-        # )
+        self.__api_domain_name = ApiDomainName(
+            self,
+            name="dpv",
+            domain=domain,
+            host=api_host,
+            stage=stage
+        )
 
         # S3 Bucket
         self.__data_storage = Storage(

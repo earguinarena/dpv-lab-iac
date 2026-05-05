@@ -29,6 +29,8 @@ resources = ResourcesStack(
     app, f"{stage}-dpv-lab-resources",
     stage=stage,
     name="dpv-lab",
+    domain=domain,
+    api_host=api_host,
     env=Environment(account=os.getenv('CDK_DEFAULT_ACCOUNT'),
                     region="us-east-1"),
 )
