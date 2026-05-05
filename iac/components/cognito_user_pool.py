@@ -44,6 +44,13 @@ class CognitoUserPool(Construct):
                     mutable=True,
                 )
             ),
+            custom_attributes={
+                "role": cognito.StringAttribute(
+                    min_len=1,
+                    max_len=50,
+                    mutable=True
+                )
+            }
         )
 
         # App Client
@@ -75,6 +82,25 @@ class CognitoUserPool(Construct):
             )
 
         )
+
+        CfnOutput(
+            self, "AppClientId",
+            export_name=f"{stage}-dpv-appclientid",
+            value=self.__app_client_id_react.user_pool_client_id
+        )
+
+        CfnOutput(
+            self, "PostmanClientId",
+            export_name=f"{stage}-dpv-postmanappclientid",
+            value=self.__app_client_id_postman.user_pool_client_id
+        )
+
+        CfnOutput(
+            self, "UserPoolId",
+            export_name=f"{stage}-dpv-userpoolid",
+            value=self.__user_pool.user_pool_id
+        )
+
 
     def get_user_pool_id(self):
         return self.__user_pool.user_pool_id

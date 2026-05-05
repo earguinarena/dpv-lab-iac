@@ -52,13 +52,13 @@ class ApiDomainName:
 
         CfnOutput(
             stack, "ApiDomainRegionalHostedZoneExport",
-            export_name=f"{stage}-{name}-api-regional-hosted-zone",
+            export_name=f"{stage}-{name}-dpv-api-regional-hosted-zone",
             value=api_domain_name.domain_name_alias_hosted_zone_id
         )
 
         CfnOutput(
             stack, "ApiDomainExport",
-            export_name=f"{stage}-{name}-api-domain",
+            export_name=f"{stage}-{name}-dpv-api-domain",
             value=domain
         )
 

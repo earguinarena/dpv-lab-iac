@@ -42,8 +42,10 @@ class ResourcesStack(Stack):
         # S3 Bucket
         self.__data_storage = Storage(
             self,
-            bucket_name=f"{stage}-dpv-lab-data-storage",
-            family_name="Data"
+            bucket_name="dpv-lab-data-storage",
+            family_name="Data",
+            stage=stage,
+            export_name="dpv-bucket-name-export"
         )
 
         # Dynamo DB Tables Locale
