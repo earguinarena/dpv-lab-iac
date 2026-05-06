@@ -13,12 +13,27 @@ class QueueComponent(Construct):
                  family_name,
                  stage,
                  export_name="queue-url",
-                 dead_letter_queue=None,
                  visibility_timeout=Duration.seconds(30),
                  receive_message_wait_time=Duration.seconds(5),
                  retention_period=Duration.days(4),
+                 with_dead_letter_queue=False,
                  **kwargs) -> None:
         super().__init__(scope, construct_id, **kwargs)
+
+        if with_dead_letter_queue:
+            # Dead Letter Queue
+            dlq = sqs.Queue(
+                self,
+                f"DqlQueue{family_name}",
+                queue_name=f"{stage}-dql-{name}",
+                retention_period=Duration.days(14),
+            )
+            dead_letter_queue=sqs.DeadLetterQueue(
+                max_receive_count=5,
+                queue=dlq,
+            )
+        else:
+            dead_letter_queue = None
 
 
         self.__queue = sqs.Queue(

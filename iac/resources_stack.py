@@ -1,6 +1,7 @@
 from aws_cdk import (
     Stack,
     RemovalPolicy,
+    Duration,
     CfnOutput
 )
 
@@ -56,6 +57,19 @@ class ResourcesStack(Stack):
 
         )
 
+        QueueComponent(
+            self, "EnviosQueue",
+            name="dpv-envios",
+            family_name="Envios",
+            stage=stage,
+            export_name="dpv-envios-queue",
+            visibility_timeout=Duration.minutes(5),
+            retention_period=Duration.days(4),
+            receive_message_wait_time=Duration.seconds(20),
+            with_dead_letter_queue=True
+        )
+
+        # Integration resources
         if stage=="dev":
             # creo tablas para tests de integracion
             DynamodbTables(
@@ -63,15 +77,18 @@ class ResourcesStack(Stack):
                 stage="integration",
                 family_name="Integration"
             )
+            QueueComponent(
+                self, "IntegrationEnviosQueue",
+                name="dpv-envios",
+                family_name="EnviosDLQ",
+                stage="integration",
+                export_name="dpv-envios-queue",
+                visibility_timeout=Duration.minutes(5),
+                retention_period=Duration.days(4),
+                receive_message_wait_time=Duration.seconds(20),
+                with_dead_letter_queue=True
+            )
 
-
-        QueueComponent(
-            self, "EnviosQueue",
-            name="dpv-envios",
-            family_name="Envios",
-            stage=stage,
-            export_name="dpv-envios-queue",
-        )
 
         # pipeline artifacts bucket
         self.__pipeline_artifacts_bucket = StorageService(
