@@ -13,6 +13,7 @@ from iac.components.storage import Storage
 from iac.resources.dynamodb_tables import DynamodbTables
 from iac.components.api_domain_name import ApiDomainName
 from iac.components.queue_component import QueueComponent
+from iac.components.ses_identity_domain_component import SesIdentityDomainComponent
 
 class ResourcesStack(Stack):
 
@@ -89,6 +90,12 @@ class ResourcesStack(Stack):
                 with_dead_letter_queue=True
             )
 
+        # Ses identity domain
+        SesIdentityDomainComponent(
+            self, "SesIdentityDomain",
+            stage=stage,
+            domain_name=domain
+        )
 
         # pipeline artifacts bucket
         self.__pipeline_artifacts_bucket = StorageService(
