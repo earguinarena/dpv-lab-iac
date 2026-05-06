@@ -39,6 +39,7 @@ class AppFeStack(Stack):
         )
 
         environment_variables_fe = {
+            "STAGE": stage,
             "APP_USER_POOL_ID": cognito_user_pool_id,
             "APP_CLIENT_ID": cognito_app_client_id,
             "APP_REGION": cognito_app_region,

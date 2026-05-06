@@ -38,17 +38,18 @@ class ReactWebappHosting:
         )
 
 
-        # Import Hosted zone
-        zone = route53.HostedZone.from_lookup(
-            stack, "ImportedHostedZone",
-            domain_name=domain,
-        )
+        # # Import Hosted zone
+        # zone = route53.HostedZone.from_lookup(
+        #     stack, "ImportedHostedZone",
+        #     domain_name=domain,
+        # )
 
         certificate = acm.Certificate(
             stack, "SslCertificate",
             domain_name=domain_name,
             subject_alternative_names=[] if not root_domain else [domain],
-            validation=acm.CertificateValidation.from_dns(zone)
+            # validation=acm.CertificateValidation.from_dns(zone)
+            validation=acm.CertificateValidation.from_dns()
         )
 
         self.__distribution = cloudfront.Distribution(
@@ -82,24 +83,24 @@ class ReactWebappHosting:
         )
 
         # Create dns register
-        route53.ARecord(
-            stack, "WebAppAliasRecord",
-            record_name=domain_name,
-            target=route53.RecordTarget.from_alias(
-                targets.CloudFrontTarget(self.__distribution)
-            ),
-            zone=zone
-        )
+        # route53.ARecord(
+        #     stack, "WebAppAliasRecord",
+        #     record_name=domain_name,
+        #     target=route53.RecordTarget.from_alias(
+        #         targets.CloudFrontTarget(self.__distribution)
+        #     ),
+        #     zone=zone
+        # )
 
-        if root_domain:
-            route53.ARecord(
-                stack, "RootWebAppAliasRecord",
-                record_name=domain,
-                target=route53.RecordTarget.from_alias(
-                    targets.CloudFrontTarget(self.__distribution)
-                ),
-                zone=zone
-            )
+        # if root_domain:
+        #     route53.ARecord(
+        #         stack, "RootWebAppAliasRecord",
+        #         record_name=domain,
+        #         target=route53.RecordTarget.from_alias(
+        #             targets.CloudFrontTarget(self.__distribution)
+        #         ),
+        #         zone=zone
+        #     )
 
         CfnOutput(
             stack, "SiteBucketName",
