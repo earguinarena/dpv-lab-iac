@@ -103,7 +103,7 @@ class DynamodbTables:
             )
         )
         self.__envio_informe.add_global_secondary_index(
-            index_name="uid_profesional_actual_index",
+            index_name="uid_protocolo_index",
             partition_key=dynamodb.Attribute(
                 name="uid_protocolo",
                 type=dynamodb.AttributeType.STRING
