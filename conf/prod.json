@@ -1,5 +1,5 @@
 {
   "domain":"dpv.ar",
   "git-branch": "main",
-  "codestar-connection": "xxxxxxxxx"
+  "codestar-connection": "arn:aws:codeconnections:us-east-2:985823271246:connection/53790747-932c-40ab-8d56-1c3be653d298"
 }
