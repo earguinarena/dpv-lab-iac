@@ -115,3 +115,27 @@ class DynamodbTables:
             projection_type=dynamodb.ProjectionType.ALL
         )
 
+        self.__envio_informe.add_global_secondary_index(
+            index_name="uid_envio_batch_index",
+            partition_key=dynamodb.Attribute(
+                name="uid_envio_batch",
+                type=dynamodb.AttributeType.STRING
+            ),
+            sort_key=dynamodb.Attribute(
+                name="fecha_solicitud",
+                type=dynamodb.AttributeType.STRING
+            ),
+            projection_type=dynamodb.ProjectionType.ALL
+        )
+
+        self.__envio_informe.add_global_secondary_index(
+            index_name="message_id_index",
+            partition_key=dynamodb.Attribute(
+                name="message_id",
+                type=dynamodb.AttributeType.STRING
+            ),
+            projection_type=dynamodb.ProjectionType.ALL
+        )
+
+
+
