@@ -7,6 +7,7 @@ from aws_cdk import (
 
 from constructs import Construct
 
+from iac.components.sns_topic_component import SnsTopicComponent
 from iac.components.storage_service import StorageService
 from iac.components.cognito_user_pool import CognitoUserPool
 from iac.components.storage import Storage
@@ -95,6 +96,14 @@ class ResourcesStack(Stack):
             self, "SesIdentityDomain",
             stage=stage,
             domain_name=domain
+        )
+
+        SnsTopicComponent(
+            self, "SnsTopic",
+            name="dpv-whatsapp-messages-events",
+            family_name="WhatsappMessagesEvents",
+            stage=stage,
+            export_name="dpv-whatsapp-messages-events",
         )
 
         # pipeline artifacts bucket
