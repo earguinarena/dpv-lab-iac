@@ -60,6 +60,45 @@ class DynamodbTables:
             )
         )
 
+        self.__protocolo.add_global_secondary_index(
+            index_name="entity_type_numero_protocolo_index",
+            partition_key=dynamodb.Attribute(
+                name="entity_type",
+                type=dynamodb.AttributeType.STRING
+            ),
+            sort_key=dynamodb.Attribute(
+                name="numero_protocolo",
+                type=dynamodb.AttributeType.NUMBER
+            ),
+            projection_type=dynamodb.ProjectionType.ALL
+        )
+
+        self.__protocolo.add_global_secondary_index(
+            index_name="uid_establecimiento_numero_protocolo_index",
+            partition_key=dynamodb.Attribute(
+                name="uid_establecimiento",
+                type=dynamodb.AttributeType.STRING
+            ),
+            sort_key=dynamodb.Attribute(
+                name="numero_protocolo",
+                type=dynamodb.AttributeType.NUMBER
+            ),
+            projection_type=dynamodb.ProjectionType.ALL
+        )
+
+        self.__protocolo.add_global_secondary_index(
+            index_name="uid_profesional_numero_protocolo_index",
+            partition_key=dynamodb.Attribute(
+                name="uid_profesional",
+                type=dynamodb.AttributeType.STRING
+            ),
+            sort_key=dynamodb.Attribute(
+                name="numero_protocolo",
+                type=dynamodb.AttributeType.NUMBER
+            ),
+            projection_type=dynamodb.ProjectionType.ALL
+        )
+
         self.__analisis = dynamodb.Table(
             stack, f"{family_name}AnalisisDynamoTable",
             table_name=f"{stage}-dpv-lab-Analisis",

@@ -71,26 +71,6 @@ class ResourcesStack(Stack):
             with_dead_letter_queue=True
         )
 
-        # Integration resources
-        if stage=="dev":
-            # creo tablas para tests de integracion
-            DynamodbTables(
-                self,
-                stage="integration",
-                family_name="Integration"
-            )
-            QueueComponent(
-                self, "IntegrationEnviosQueue",
-                name="dpv-envios",
-                family_name="EnviosDLQ",
-                stage="integration",
-                export_name="dpv-envios-queue",
-                visibility_timeout=Duration.minutes(5),
-                retention_period=Duration.days(4),
-                receive_message_wait_time=Duration.seconds(20),
-                with_dead_letter_queue=True
-            )
-
         # Ses identity domain
         SesIdentityDomainComponent(
             self, "SesIdentityDomain",
