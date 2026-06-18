@@ -78,7 +78,7 @@ class ReactWebappPipeline:
             stack, "DeleteS3Files",
             description="Delete React file from S3",
             function_name=f"{stage}-{name}-delete-s3-files",
-            runtime=_lambda.Runtime.PYTHON_3_9,
+            runtime=_lambda.Runtime.PYTHON_3_11,
             handler="webapp-delete-s3-objects.handler",
             code=_lambda.Code.from_asset(os.path.dirname(__file__) + "/../../lambda/"),
             environment={
@@ -117,7 +117,7 @@ class ReactWebappPipeline:
             stack, "CloudfrontInvalidation",
             description="Cloudfront Invalidation",
             function_name=f"{stage}-{name}-cloudfront_invalidation",
-            runtime=_lambda.Runtime.PYTHON_3_9,
+            runtime=_lambda.Runtime.PYTHON_3_11,
             handler="webapp-cloudfront-invalidation.handler",
             code=_lambda.Code.from_asset(os.path.dirname(__file__) + "/../../lambda/"),
         )
